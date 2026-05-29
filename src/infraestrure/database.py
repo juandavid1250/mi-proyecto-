@@ -1,6 +1,7 @@
 #este archivo es el responsable de establecer la conexion con la base de datos
-#PostgreSQL usando SQLAlchemy como nuestro ORM ( Object-Relational Mapping)
-#convierte tablas de PostgreSQL a clases de python
+#SQLite para desarrollo local, PostgreSQL para producción (Render)
+#usando SQLAlchemy como nuestro ORM ( Object-Relational Mapping)
+#convierte tablas de SQLite/PostgreSQL a clases de python
 
 #3 conceptos claves
 #Engine: representa la conexion fisica al motor de la base de datos
@@ -15,11 +16,15 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 #cargar las variables definidas en el archivo .env al entorno del proceso
 load_dotenv()
 
-#esta es la cadena de conexion para PostgreSQL
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/iutede_db")
+#Usar DATABASE_URL si está configurado (producción), sino SQLite (desarrollo)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./iutede.db")
 
-#creamos el Engine
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+#Configuración específica para SQLite
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    # Configuración para PostgreSQL
+    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 #creamos la sesion
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
