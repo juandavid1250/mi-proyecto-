@@ -11,6 +11,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.route import router
+from src.infraestrure.database import engine, Base
+from src.domain.models import Rol, Usuario, Estudiante, Profesor, Monitor, Recurso, Reserva, Novedad, Prestamo
 
 
 app = FastAPI(
@@ -28,6 +30,12 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
+
+@app.on_event("startup")
+def startup_event():
+    # Crear tablas automáticamente al iniciar la aplicación
+    Base.metadata.create_all(bind=engine)
 
 
 @app.get("/", tags=["Health"])
