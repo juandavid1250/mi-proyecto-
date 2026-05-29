@@ -21,6 +21,7 @@ class UsuarioBase(BaseModel):
     nombre_usuario: str
     correo: str
     contrasena: str
+    contraseña_hash: str
 
 
 class UsuarioCreate(UsuarioBase):
