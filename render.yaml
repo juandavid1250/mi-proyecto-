@@ -1,7 +1,6 @@
 services:
-- type: web
-name: modeladosofwarenoche
-env:python
+- type: webname: modeladosofwarenoche
+env: python
 buildcommand: pip install -r requirements.txt
-startcommand:uvicorn main:app --host 0.0.0.0 --port $port
+startcommand: uvicorn main:app --host 0.0.0.0 --port $port
 g
