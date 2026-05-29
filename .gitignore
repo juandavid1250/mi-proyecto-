@@ -49,3 +49,12 @@ Thumbs.db
 
 # Logs
 *.log
+*.err.log
+*.out.log
+
+# PyInstaller
+*.spec
+
+# Local scripts
+run_local.bat
+tes_db_connection.py
